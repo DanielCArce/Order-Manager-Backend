@@ -1,4 +1,4 @@
-import { validate_jwt } from "../utils/jwt.jss"
+import { validate_jwt } from "../utils/jwt.js"
 
 async function AuthMidleware(request, response, next) { 
     let { token } = request.cookies
