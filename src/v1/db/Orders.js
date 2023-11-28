@@ -49,3 +49,16 @@ export async function deleteOrderByOrderID(orderID) {
         throw new Error(error.message)  
     }
 }
+
+export async function updateOrderStatusByOrderID(orderID, orderStatus) {
+    try {
+        return db.order.update({
+            data: orderStatus,
+            where: {
+                order_id:orderID
+            }
+        })
+    } catch (error) {
+        throw new Error(error.message)  
+    }
+}
