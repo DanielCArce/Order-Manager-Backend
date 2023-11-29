@@ -6,6 +6,8 @@ async function ErrorHandler(error, request, response, next) {
         case "Authentication":
             response.sendStatus(511)
             break;
+        case 'Tokne':
+            response.sendStatus(503)
     }
 }
 
