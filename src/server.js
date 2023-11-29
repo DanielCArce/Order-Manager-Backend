@@ -20,9 +20,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 //routes
-app.use('/orders', orderRouter)
-app.use('/companies', companyRouter)
-app.use('/users',userRouter)
+app.use('/api/v1/orders', orderRouter)
+app.use('/api/v1/companies', companyRouter)
+app.use('/api/v1/users',userRouter)
 
 
 app.use(ErrorHandler)
