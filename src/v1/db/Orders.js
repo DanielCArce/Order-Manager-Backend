@@ -1,64 +1,9 @@
 import db from './index.js'
 
-export async function newOrder(orderData) {
+export async function create_new_order(orderData) {
     try {
-        return db.order.create({
-        data:orderData
-    })
+        let newOrder = db.order.create()
     } catch (error) {
-      throw new Error(error.message)  
-    }
-}
-export async function findOnderByOrderID(orderID) {
-    try {
-        return db.order.findUnique({
-            where: {
-                order_id:orderID
-            }
-        })
-    } catch (error) {
-        throw new Error(error.message)  
-    }
-}
-export async function findOrderByCliendID(cliendID) {
-    try {
-        return db.order.findMany({
-            where: {
-                client_id: cliendID
-            }
-        })
-    } catch (error) {
-        throw new Error(error.message)  
-    }
-}
-export async function findAllOrders() {
-    try {
-        return db.order.findMany()
-    } catch (error) {
-        throw new Error(error.message)  
-    }
-}
-export async function deleteOrderByOrderID(orderID) {
-    try {
-        return db.order.delete({
-            where: {
-                order_id: orderID
-            }
-        })
-    } catch (error) {
-        throw new Error(error.message)  
-    }
-}
-
-export async function updateOrderStatusByOrderID(orderID, orderStatus) {
-    try {
-        return db.order.update({
-            data: orderStatus,
-            where: {
-                order_id:orderID
-            }
-        })
-    } catch (error) {
-        throw new Error(error.message)  
+        throw new Error(error.message)
     }
 }

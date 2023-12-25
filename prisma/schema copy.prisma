@@ -9,6 +9,7 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 model User {
   id Int @id @unique @default(autoincrement())
   name String @db.VarChar(255)
@@ -22,7 +23,7 @@ model Order {
   orderID String @unique // Ex: 'O-0001'
   user User? @relation(fields: [id], references: [id])
   items Json[]
-  date DateTime @default(now())
+  date DateTime
   clientID ClientsOrProviders?
   status Status @default(PENDING)
   shipping OrdersWithShipping?

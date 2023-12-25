@@ -5,9 +5,11 @@
   "main": "./index.js",
   "type": "module",
   "scripts": {
-    "start": "node .",
+    "start": "docker-compose up -d && node .",
     "dev": "nodemon .",
-    "prisma:studio":"npx prisma studio",
+    "debug":"node inspect ./index.js",
+    "docker:run":"docker-compose up -d",
+    "prisma:studio": "npx prisma studio",
     "test": "set NODE_OPTIONS=--experimental-vm-modules && jest"
   },
   "author": "DanielCArce (dev@danielcarce.io)",
@@ -21,7 +23,8 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "redis": "^4.6.11"
   },
   "devDependencies": {
     "jest": "^29.4.1",

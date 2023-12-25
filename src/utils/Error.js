@@ -1,8 +1,8 @@
 class ApiError extends Error{
-    constructor(status, typeError, message) {
+    constructor(typeError, message, meta={}) {
         super(message)
-        this.status = status
-        this.typeError = typeError
+        this.meta = meta
+        this.code = typeError
     }
 }
 export default ApiError

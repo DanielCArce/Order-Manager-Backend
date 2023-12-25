@@ -1,70 +1,50 @@
 import db from './index.js'
 
-export async function newUser(userData) {
+export async function create_new_user(userInfo) {
     try {
-        return db.user.create({
-        data: userData,
-        select: {
-            email: true,
-            name: true,
-            role: true,
-            username:true
-        }
-    })
-    } catch (error) {
-        throw new Error(error.message)
-    }
-}
-export async function findUserByEmail(userEmail) {
-    try {
-        return db.user.findUnique({
-            where: {
-                email: userEmail
-            },
-            select: {
-            email: true,
-            name: true,
-            role: true,
-            username:true
-        }
+        let newUser = await db.user.create({
+            data: {
+                userInfo
+            }
         })
+        return newUser
     } catch (error) {
         throw new Error(error.message)
     }
 }
-export async function findAllUsers() {
+export async function find_user_by_email(userEmail) {
     try {
-        return db.user.findMany({
-            select: {
-            email: true,
-            name: true,
-            role: true,
-            username:true
-        }
-        })
-    } catch (error) {
-        throw new Error(error.message)
-    }
-}
-export async function updateUser(userEmail, userData) {
-    try {
-        db.user.update({
-            where: {
-                email:userEmail
-            },
-            data: userData
-        })
-    } catch (error) {
-        throw new Error(error.message)
-    }
-}
-export async function deleteUser(userEmail){
-    try {
-        db.user.delete({
+        let userFinded = await db.user.findUnique({
             where: {
                 email: userEmail
             }
         })
+        return userFinded
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}
+export async function update_user_by_email(userEmail, userData) {
+    try {
+        let userUpdated = await db.user.update({
+            where: {
+                email:userEmail
+            },
+            data:userData
+        })
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}
+
+export async function drop_user_by_email(userEmail) {
+    try {
+        let userDroped = await db.user.delete({
+            where: {
+                email: userEmail
+            }
+        })
+        return userDroped
     } catch (error) {
         throw new Error(error.message)
     }

@@ -1,15 +1,18 @@
 import { validate_jwt } from "../utils/jwt.js"
 
 async function AuthMidleware(request, response, next) { 
-    let { token } = request.cookies
-    console.log({ token })
-    if (token === undefined || token === null) {
+    let rawToken = request.headers['authorization']
+    // console.log({rawToken, headers:request.headers})
+    if (rawToken === undefined || rawToken === null) {
+       return response.sendStatus(403)
+    }
+    let token = rawToken.split(' ')[1]
+    let isValidToken = await validate_jwt(token)
+    if (!isValidToken) {
         return response.sendStatus(403)
     }
-    let isValidToken = await validate_jwt(token)
-        console.log({token,isValidToken})
         request.user = isValidToken
-        next()
+        return next()
 }
 
 export default AuthMidleware
