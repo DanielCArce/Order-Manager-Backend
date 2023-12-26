@@ -1,27 +1,19 @@
-import jwt from 'jsonwebtoken'
-
-export async function create_jwt(payload) {
-    
+import * as jwt from 'jsonwebtoken'
+import Error from './CustomError.js'
+export async function generate_token(payload) {
     try {
-        let jwt_token = await jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: '1h' })
-        return jwt_token    
+        let token = await jwt.sign(payload, process.env.TOKEN_SECRET, { encoding: 'utf8' })
+        return token
     } catch (error) {
-        console.error(error.message)
+        throw new Error(error.message, '301')
     }
     
 }
-
-export async function validate_jwt(token) {
-    console.log({token})
-    if (!token) {
-        return false
-    }
-    try {
-        let user = await jwt.verify(token, process.env.TOKEN_SECRET);
-        return user;    
-    } catch (error) {
-        console.error(error)
-        return false
-    }
-    
+export async function validate_token(token) {
+try {
+    let isValidToken = await jwt.verify(token, process.env.TOKEN_SECRET);
+    return isValidToken
+} catch (error) {
+    throw new Error(error.message, '302')
+}
 }
