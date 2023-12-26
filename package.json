@@ -7,8 +7,8 @@
   "scripts": {
     "start": "docker-compose up -d && node .",
     "dev": "nodemon .",
-    "debug":"node inspect ./index.js",
-    "docker:run":"docker-compose up -d",
+    "debug": "node inspect ./index.js",
+    "docker:run": "docker-compose up -d",
     "prisma:studio": "npx prisma studio",
     "test": "set NODE_OPTIONS=--experimental-vm-modules && jest"
   },
@@ -18,10 +18,12 @@
     "@prisma/client": "^5.6.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
+    "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.0",
     "morgan": "^1.10.0",
     "redis": "^4.6.11"
@@ -29,7 +31,7 @@
   "devDependencies": {
     "jest": "^29.4.1",
     "nodemon": "^3.0.1",
-    "prisma": "^5.6.0",
+    "prisma": "^5.7.1",
     "supertest": "^6.3.3"
   }
 }
