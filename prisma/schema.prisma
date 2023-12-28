@@ -15,6 +15,7 @@ model User {
   username String @db.VarChar(255)
   password String @db.VarChar(255)
   email String @unique @db.VarChar(255)
+  role Role @default(USER)
   order Order?
 }
 model Order {
@@ -67,4 +68,8 @@ enum Status {
   PENDING
   WORKING
   COMPLETED
+}
+enum Role {
+  ADMIN
+  USER
 }
