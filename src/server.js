@@ -7,14 +7,10 @@ import cookiesParser from 'cookie-parser'
 import * as Sentry from "@sentry/node";
 import { ProfilingIntegration } from "@sentry/profiling-node";
 
-//custom middlewares
-// import ErrorMiddleware from './middlewares/errors.js'
-
-import authRoutesV1 from './v1/routes/auth.js'
-import ordersRoutesV1 from './v1/routes/orders.js'
-import invoicesRoutesV1 from './v1/routes/invoices.js'
-import usersRoutesV1 from './v1/routes/users.js'
-
+//
+import usersRouterV1 from './v1/routes/users.js'
+import authRouterV1 from './v1/routes/auth.js'
+import orderRouterV1 from './v1/routes/orders.js'
 const app = express()
 Sentry.init({
   dsn: "https://b4268284485b1b3de1a27644243151c2@o163098.ingest.sentry.io/4506474550591488",
@@ -31,6 +27,9 @@ Sentry.init({
   profilesSampleRate: 1.0,
 });
 //middlwares deps
+
+
+
 // The request handler must be the first middleware on the app
 app.use(Sentry.Handlers.requestHandler());
 
@@ -44,24 +43,21 @@ app.use(cors())
 app.use(cookiesParser())
 app.use(compression())
 
-app.use('/api/v1/auth',authRoutesV1)
-app.use('/api/v1/orders', ordersRoutesV1)
-app.use('/api/v1/invoices',invoicesRoutesV1)
-app.use('/api/v1/users', usersRoutesV1)
-
+//routing declarations
+app.use('/api/v1/users',usersRouterV1)
+app.use('/api/v1/auth',authRouterV1)
+app.use('/api/v1/orders',orderRouterV1)
 app.get("/debug-sentry", function mainHandler(req, res) {
   throw new Error("My first Sentry error!");
 });
 
-
-
 // The error handler must be registered before any other error middleware and after all controllers
 app.use(Sentry.Handlers.errorHandler());
-
 // Optional fallthrough error handler
 app.use(function onError(err, req, res, next) {
   // The error id is attached to `res.sentry` to be returned
   // and optionally displayed to the user for support.
+  console.log({err})
   res.statusCode = 500;
   res.end(res.sentry + "\n");
 });
