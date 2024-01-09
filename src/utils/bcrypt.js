@@ -2,8 +2,12 @@ import * as bcrypt from 'bcrypt'
 import Error from './CustomError.js'
 
 async function generateSalt() {
-    let salt = await bcrypt.genSalt(process.env.SALT_ROUNDS)
-    return salt
+    try {
+        let salt = await bcrypt.genSalt(Number(process.env.SALT_ROUNDS))
+        return salt
+    } catch (error) {
+        throw new Error(error.message,'Encrypting','security',1002)
+    }
 }
 export async function encrypt_password(planPassword) {
     let salt = await generateSalt()
