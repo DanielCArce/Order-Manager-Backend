@@ -1,30 +1,43 @@
 import db from '../../db/index.js'
 import Error from '../../utils/CustomError.js'
-export async function create_user(userData) {
+export async function createUser(userData) {
     try {
-        let userCreated = await db.user.create({
-            data: userData
+        let newUser = await db.user.create({
+            data:userData
         })
-        return userCreated
+        return newUser
     } catch (error) {
-        throw new Error(error.message, 'User creation', 'Database','UserCreaction')
+        throw new Error(error.message,'User Creation Fail','Database',403)
     }
 }
-
-export async function update_user(userEmail, userData) {
+export async function deleteUser(userEmail) {
+    try {
+        let userDeleted = await db.user.delete({
+            where: {
+                email: userEmail
+            }
+        })
+        return userDeleted
+    } catch (error) {
+        throw new Error(error.message,'User Deleting Fail','Database',403)
+    }
+}
+export async function updateUser(userEmail, userData) {
     try {
         let userUpdated = await db.user.update({
             where: {
                 email: userEmail
             },
-            data:userData
+            data: userData
         })
         return userUpdated
+        
     } catch (error) {
-        throw new Error(error.message, 'User updating', 'Database','UserUpdate')
+        throw new Error(error.message,'User Updating Fail','Database',403)
     }
 }
-export async function find_user(userEmail) {
+
+export async function findUserByUserEmail(userEmail) {
     try {
         let userFinded = await db.user.findUnique({
             where: {
@@ -32,13 +45,21 @@ export async function find_user(userEmail) {
             },
             select: {
                 email: true,
-                name: true,
-                username: true,
-                password:true
+                role: true,
+                password: true
             }
         })
         return userFinded
     } catch (error) {
-        throw new Error(error.message, 'User updating', 'Database','UserUpdate')
+        throw new Error(error.message,'User Finding User Fail','Database',403)
+    }
+}
+
+export async function findAllUsers() {
+    try {
+        let allUsers = await db.user.findMany({})
+        return allUsers
+    } catch (error) {
+        
     }
 }

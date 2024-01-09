@@ -1,11 +1,12 @@
+import AuthMiddleware from '../../middlewares/auth.js'
+import { getSignOut, postSignIn } from '../controllers/auth.js'
 import { Router } from 'express'
-import { signIn, signOut } from '../controllers/auth.js'
 
-const routes = Router()
+const router = Router()
+router
+    .post('/token', postSignIn)
+    .use(AuthMiddleware)
+    .get('/', getSignOut)
 
 
-routes
-    .post('/', signIn)
-    .get('/',signOut)
-
-export default routes
+export default router
