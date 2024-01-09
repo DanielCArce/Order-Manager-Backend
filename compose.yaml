@@ -8,60 +8,31 @@
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
 services:
-#  server:
-#    build:
-#      context: .
-#    environment:
-#      NODE_ENV: production
-#    ports:
-#      - 3000:3000
-  db:
-    image: postgres
-    restart: always
+  postgres:
+    container_name: postgres
+    image: postgres:latest
     environment:
-      POSTGRES_PASSWORD: dca031394
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PW}
     ports:
-      - 5432:5432
-    volumes:
-      - C:\\Users\\Notebook\\OneDrive\\Documents\\DanielCArce Solutions\\Projects\\order-manager-api\\storage:/var/lib/porstgresql/data
-  cache:
-    image: redis
+      - "5432:5432"
     restart: always
-    ports:
-      - 6379:6379
     volumes:
-      - C:\\Users\\Notebook\\OneDrive\\Documents\\DanielCArce Solutions\\Projects\\order-manager-api\\storage:/usr/local/etc/redis
-
-# The commented out section below is an example of how to define a PostgreSQL
-# database that your application can use. `depends_on` tells Docker Compose to
-# start the database before your application. The `db-data` volume persists the
-# database data between container restarts. The `db-password` secret is used
-# to set the database password. You must create `db/password.txt` and add
-# a password of your choosing to it before running `docker-compose up`.
-#     depends_on:
-#       db:
-#         condition: service_healthy
-#   db:
-#     image: postgres
-#     restart: always
-#     user: postgres
-#     secrets:
-#       - db-password
-#     volumes:
-#       - db-data:/var/lib/postgresql/data
-#     environment:
-#       - POSTGRES_DB=example
-#       - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
-#     expose:
-#       - 5432
-#     healthcheck:
-#       test: [ "CMD", "pg_isready" ]
-#       interval: 10s
-#       timeout: 5s
-#       retries: 5
-# volumes:
-#   db-data:
-# secrets:
-#   db-password:
-#     file: db/password.txt
-
+      - ./storage:/var/lib/postgresql/data
+  backend:
+    container_name: backendapi
+    depends_on: 
+      - postgres
+    environment:
+      - DATABASE_URL =${DATABASE_URL}
+      - PORT= ${PORT}
+      - TOKEN_SECRET = ${TOKEN_SECRET}
+      - SALT_ROUNDS = ${SALT_ROUNDS}
+      - SENTRY_DSN = ${SENTRY_DSN}
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    
+    
+  

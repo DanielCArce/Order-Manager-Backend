@@ -10,7 +10,7 @@
     "debug": "node inspect ./index.js",
     "docker:run": "docker-compose up -d",
     "prisma:studio": "npx prisma studio",
-    "test": "set NODE_OPTIONS=--experimental-vm-modules && jest"
+    "test": "set NODE_OPTIONS=--experimental-vm-modules && jest --detectOpenHandles"
   },
   "author": "DanielCArce (dev@danielcarce.io)",
   "license": "ISC",
