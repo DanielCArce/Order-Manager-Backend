@@ -1,13 +1,18 @@
 import {decrypt_token} from '../utils/jwt.js'
-
+import Error from '../utils/CustomError.js'
 export default async function AuthMiddleware(request, response, next){
-    let headerWithToken = request.headers['authorization']
-    let token = headerWithToken.split(' ')[1]
-    if (token == null) {
-        response.sendStatus(403)
+    const headerWithToken = request.headers['authorization']
+    console.log({headerWithToken})
+    if (headerWithToken === undefined) {
+        // next(new Error('token is undefined','Authorization Fail','AuthMiddleware',403))
+        return response.status(401).json({message:'Not token provided'})
     }
     try {
-        let decodedToken = await decrypt_token(token)
+        const token = headerWithToken.split(' ')[1]
+        if (token == null || token == undefined) {
+            next(new Error('token is undefined','Authorization Fail','AuthMiddleware',403))
+        }
+        const decodedToken = await decrypt_token(token)
         request.user = decodedToken
         next()
     } catch (error) {
