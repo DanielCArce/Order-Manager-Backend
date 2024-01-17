@@ -11,6 +11,7 @@ import { ProfilingIntegration } from "@sentry/profiling-node";
 import usersRouterV1 from './v1/routes/users.js'
 import authRouterV1 from './v1/routes/auth.js'
 import orderRouterV1 from './v1/routes/orders.js'
+import clientProviderRouterV1 from './v1/routes/clientproviders.js'
 const app = express()
 Sentry.init({
   dsn: "https://b4268284485b1b3de1a27644243151c2@o163098.ingest.sentry.io/4506474550591488",
@@ -46,7 +47,8 @@ app.use(compression())
 //routing declarations
 app.use('/api/v1/users',usersRouterV1)
 app.use('/api/v1/auth',authRouterV1)
-app.use('/api/v1/orders',orderRouterV1)
+app.use('/api/v1/orders', orderRouterV1)
+app.use('/api/v1/clients-providers',clientProviderRouterV1)
 app.get("/debug-sentry", function mainHandler(req, res) {
   throw new Error("My first Sentry error!");
 });
