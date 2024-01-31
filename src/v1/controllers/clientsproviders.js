@@ -23,6 +23,7 @@ export async function deleteClientProvider(request, response, next) {
     const clientProv = request.params.clientID
     try {
     const clientDeleted = await delClientProv(clientProv)
+    response.status(200).json({clientDeleted})
     } catch (error) {
         next(error)
     }

@@ -1,3 +1,4 @@
+import fs from 'node:fs'
 import express from 'express'
 import cors from 'cors'
 import compression from 'compression'
@@ -6,7 +7,7 @@ import morgan from 'morgan'
 import cookiesParser from 'cookie-parser'
 import * as Sentry from "@sentry/node";
 import { ProfilingIntegration } from "@sentry/profiling-node";
-
+import RateLimit from 'express-rate-limit'
 //
 import usersRouterV1 from './v1/routes/users.js'
 import authRouterV1 from './v1/routes/auth.js'
@@ -38,13 +39,24 @@ app.use(Sentry.Handlers.requestHandler());
 app.use(Sentry.Handlers.tracingHandler());
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+// create a write stream (in append mode)
+// var accessLogStream = fs.createWriteStream('./access.log', { flags: 'a' })
+ 
+// // setup the logger
+// app.use(morgan('combined', { stream: accessLogStream }))
 app.use(morgan('dev'))
 app.use(helmet())
 app.use(cors())
 app.use(cookiesParser())
 app.use(compression())
-
+app.use(RateLimit({
+  windowMs: 1 * 60 * 1000,
+  limit: process.env.MAX_REQUESTS_PER_MINUTE
+}))
 //routing declarations
+app.use('/api', (request, response) => {
+  response.status(200).json({version:'v1.0.1', deveploment:['Daniel C. Arce']})
+})
 app.use('/api/v1/users',usersRouterV1)
 app.use('/api/v1/auth',authRouterV1)
 app.use('/api/v1/orders', orderRouterV1)
