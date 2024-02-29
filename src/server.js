@@ -1,72 +1,49 @@
-import fs from 'node:fs'
 import express from 'express'
 import cors from 'cors'
 import compression from 'compression'
-import helmet from 'helmet'
+import cookieParse from 'cookie-parser'
 import morgan from 'morgan'
-import cookiesParser from 'cookie-parser'
-import * as Sentry from "@sentry/node";
-import { ProfilingIntegration } from "@sentry/profiling-node";
-import RateLimit from 'express-rate-limit'
-//
-import usersRouterV1 from './v1/routes/users.js'
-import authRouterV1 from './v1/routes/auth.js'
-import orderRouterV1 from './v1/routes/orders.js'
-import clientProviderRouterV1 from './v1/routes/clientproviders.js'
+import rateLimit from 'express-rate-limit'
+import helmet from 'helmet'
+import * as Sentry from '@sentry/node'
+import {ProfilingIntegration } from '@sentry/profiling-node'
+
+
+//routers
+import AuthRouter from './routes/auth.js'
+import UserRouter from './routes/users.js'
 const app = express()
+
 Sentry.init({
-  dsn: "https://b4268284485b1b3de1a27644243151c2@o163098.ingest.sentry.io/4506474550591488",
-  integrations: [
-    // enable HTTP calls tracing
-    new Sentry.Integrations.Http({ tracing: true }),
-    // enable Express.js middleware tracing
-    new Sentry.Integrations.Express({ app }),
-    new ProfilingIntegration(),
-  ],
-  // Performance Monitoring
-  tracesSampleRate: 1.0, //  Capture 100% of the transactions
-  // Set sampling rate for profiling - this is relative to tracesSampleRate
+    dsn: process.env.SENTRY_DSN,
+    integrations: [new ProfilingIntegration()],
+    tracesSampleRate: 1.0,
   profilesSampleRate: 1.0,
-});
-//middlwares deps
-
-
-
-// The request handler must be the first middleware on the app
-app.use(Sentry.Handlers.requestHandler());
-
-// TracingHandler creates a trace for every incoming request
-app.use(Sentry.Handlers.tracingHandler());
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
-// create a write stream (in append mode)
-// var accessLogStream = fs.createWriteStream('./access.log', { flags: 'a' })
- 
-// // setup the logger
-// app.use(morgan('combined', { stream: accessLogStream }))
-app.use(morgan('dev'))
-app.use(helmet())
-app.use(cors())
-app.use(cookiesParser())
-app.use(compression())
-app.use(RateLimit({
-  windowMs: 1 * 60 * 1000,
-  limit: process.env.MAX_REQUESTS_PER_MINUTE
-}))
-//routing declarations
-app.use('/api', (request, response) => {
-  response.status(200).json({version:'v1.0.1', deveploment:['Daniel C. Arce']})
 })
-app.use('/api/v1/users',usersRouterV1)
-app.use('/api/v1/auth',authRouterV1)
-app.use('/api/v1/orders', orderRouterV1)
-app.use('/api/v1/clients-providers',clientProviderRouterV1)
-app.get("/debug-sentry", function mainHandler(req, res) {
-  throw new Error("My first Sentry error!");
-});
 
-// The error handler must be registered before any other error middleware and after all controllers
+app.use(Sentry.Handlers.requestHandler())
+
+app.use(express.urlencoded({extends:true}))
+app.use(express.json())
+app.use(cors())
+app.use(helmet())
+app.use(compression())
+app.use(cookieParse())
+app.use(morgan('dev'))
+app.use(rateLimit({
+    windowMs: 15 * 60 * 1000,
+    limit: 200
+}))
+
+
+//routing settings
+app.use('/auth',AuthRouter)
+app.use('/user',UserRouter)
+
+
+// The error handler must be before any other error middleware and after all controllers
 app.use(Sentry.Handlers.errorHandler());
+
 // Optional fallthrough error handler
 app.use(function onError(err, req, res, next) {
   // The error id is attached to `res.sentry` to be returned

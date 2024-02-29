@@ -9,67 +9,43 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-model User {
-  id Int @id @unique @default(autoincrement())
-  name String @db.VarChar(255)
-  username String @db.VarChar(255)
-  password String @db.VarChar(255)
-  email String @unique @db.VarChar(255)
-  role Role @default(USER)
-  order Order?
+model User{
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  password String
+}
+model Company {
+  id Int @id @default(autoincrement())
+  name String
+  orders Order[]
+  kindOf clientType
 }
 model Order {
-  id Int @id @unique @default(autoincrement())
-  orderID String @unique // Ex: 'O-0001'
-  user User? @relation(fields: [id], references: [id])
-  items Json[]
+  id Int @id @default(autoincrement())
+  orderID String @default(uuid())
   date DateTime @default(now())
-  clientID ClientsOrProviders?
-  status Status @default(PENDING)
-  shipping OrdersWithShipping?
-}
-
-model ShippingOrders {
-  id Int @id @unique @default(autoincrement())
-  shippingID String @unique // Ex: 'JN-0001'
+  clientID Company @relation(fields: [id], references: [id])
+  pricePerInch BigInt
   items Json[]
-  shipping OrdersWithShipping?
-  invoices Invoices[]
+  shippings Shipping[]
+  status statusType @default(PENDING)
 }
-model OrdersWithShipping {
-  id Int @id @unique @default(autoincrement())
-  orderID String @unique
-  orderR Order @relation(fields: [orderID], references: [orderID])
-  shippingID String @unique
-  shippingR ShippingOrders @relation(fields: [shippingID], references: [shippingID])
+model Shipping {
+  id Int @id @default(autoincrement())
+  orderID Order @relation(fields:[id], references:[id])
+  date DateTime @default(now())
+  items Json[]
 }
 
-model ClientsOrProviders {
-  id Int @id @unique @default(autoincrement())
-  name String
-  legalID String
-  email String
-  isFE Boolean @default(false)
-  kindCompany CompanyType @default(CLIENT)
-  clientOrder Order @relation(fields: [id], references: [id])
-}
-model Invoices {
-  id Int @id @unique @default(autoincrement())
-  orderID Int
-  oshipping ShippingOrders @relation(fields: [orderID], references: [id])
-  items Json
-}
-enum CompanyType {
+
+enum clientType {
   CLIENT
   PROVIDER
   BOTH
 }
-enum Status {
+enum statusType {
   PENDING
-  WORKING
   COMPLETED
-}
-enum Role {
-  ADMIN
-  USER
+  WORKING
 }
