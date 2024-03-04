@@ -12,6 +12,8 @@ import {ProfilingIntegration } from '@sentry/profiling-node'
 //routers
 import AuthRouter from './routes/auth.js'
 import UserRouter from './routes/users.js'
+import OrderRouter from './routes/orders.js'
+import ShippingsRouter from './routes/shippings.js'
 const app = express()
 
 Sentry.init({
@@ -23,7 +25,7 @@ Sentry.init({
 
 app.use(Sentry.Handlers.requestHandler())
 
-app.use(express.urlencoded({extends:true}))
+app.use(express.urlencoded({extend: true}))
 app.use(express.json())
 app.use(cors())
 app.use(helmet())
@@ -38,7 +40,9 @@ app.use(rateLimit({
 
 //routing settings
 app.use('/auth',AuthRouter)
-app.use('/user',UserRouter)
+app.use('/users', UserRouter)
+app.use('/orders',OrderRouter)
+app.use('/shipppings',ShippingsRouter)
 
 
 // The error handler must be before any other error middleware and after all controllers
