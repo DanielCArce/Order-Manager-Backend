@@ -20,9 +20,7 @@ export async function updateStatusOrder(orderID, orderStatus) {
             where: {
                 orderID
             },
-            data: {
-                status: orderStatus
-            }
+            data: orderStatus
         })
     } catch (error) {
         throw new Error(error.message)
