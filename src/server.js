@@ -24,8 +24,7 @@ Sentry.init({
 })
 
 app.use(Sentry.Handlers.requestHandler())
-
-app.use(express.urlencoded({extend: true}))
+app.use(express.urlencoded({extended	:true}))
 app.use(express.json())
 app.use(cors())
 app.use(helmet())
