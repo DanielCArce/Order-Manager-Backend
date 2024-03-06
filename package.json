@@ -5,7 +5,7 @@
   "main": "./index.js",
   "type": "module",
   "scripts": {
-    "start": "docker compose up -d && node .",
+    "start": "node .",
     "dev": "nodemon .",
     "debug": "node inspect ./index.js",
     "docker:run": "docker-compose up -d",
