@@ -4,9 +4,13 @@ services:
     container_name: "dbase"
     image: postgres
     environment:
+      - POSTGRES_USER = postgres
       - POSTGRES_PASSWORD=danielcarce
     ports:
       - 5432:5432
+    volumes:
+      - db:/var/lib/postgresql/data #/var/lib/postgresql/data
+    
   app:
     container_name: "finaapp-api"
     build:
@@ -18,3 +22,7 @@ services:
       - SECRET = $2b$10$VAJE/2yo0kQfUi0rIKhug
     ports:
       - 3000:3000
+    volumes:
+      - ./:/app
+volumes:
+  db:
