@@ -1,14 +1,13 @@
-import db from './index.js'
+import db from '../../db/index.js'
 
 export async function createNewOrder(orderInfo, clientID) {
     try {
-        return await db.order.create({
+        return await db.orders.create({
             data: {
                 ...orderInfo,
-                clientID: {
-                    connect: {id:clientID}
+                clientID
                 }
-            }
+            
         })
     } catch (error) {
         throw new Error(error.message)
@@ -16,7 +15,7 @@ export async function createNewOrder(orderInfo, clientID) {
 }
 export async function updateStatusOrder(orderID, orderStatus) {
     try {
-        return await db.order.update({
+        return await db.orders.update({
             where: {
                 orderID
             },
@@ -26,12 +25,19 @@ export async function updateStatusOrder(orderID, orderStatus) {
         throw new Error(error.message)
     }
 }
-export async function getAllOrders(status = null) {
+export async function getAllOrders() {
     try {
-        if (status !== null) {
-            return await db.order.findMany({where:{status}})
-        }
-        return await db.order.findMany()
+        return await db.orders.findMany({
+            include: {
+                client: {
+                    select: {
+                    name: true,
+                        isFE: true,
+                    email:true,
+                    orders:true
+                }
+            }
+        }})
     } catch (error) {
         throw new Error(error.message)
     }
@@ -39,7 +45,7 @@ export async function getAllOrders(status = null) {
 export async function getOrderByOrderID(orderID, includeShippings= false) {
     try {
         if (includeShippings) {
-          return await db.order.findUnique({
+          return await db.orders.findUnique({
             where: {
                 orderID
               },
@@ -48,7 +54,7 @@ export async function getOrderByOrderID(orderID, includeShippings= false) {
               }
         })  
         }
-        return await db.order.findUnique({
+        return await db.orders.findUnique({
             where: {
                 orderID
             }

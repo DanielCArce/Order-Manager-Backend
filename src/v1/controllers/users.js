@@ -1,5 +1,5 @@
 import { createNewUser, updateUserInfo } from '../db/Users.js'
-import {hashPassword} from '../utils/bcrypt.js'
+import {hashPassword} from '../../utils/bcrypt.js'
 export async function createUser(request, response, next) {
     try {
         const { name, email, password: rawPassword } = request.body

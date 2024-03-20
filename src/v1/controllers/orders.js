@@ -2,12 +2,8 @@ import { createNewOrder, getAllOrders, getOrderByOrderID, updateStatusOrder } fr
 
 export async function getOrders(request, response, next) {
     try {
-        const status = request.params?.status
-        if (status !== null || status !== undefined) {
-            const orders = await getAllOrders(status)
-            return response.status(200).json({orders})
-        }
         const orders = await getAllOrders()
+        
         return response.status(200).json({orders})
     } catch (error) {
         return next(error)
@@ -17,6 +13,7 @@ export async function newOrder(request,response, next) {
     try {
         const orderInfo = request.body.order
         const clientID = request.body.clientID
+        
         const newOrder = await createNewOrder(orderInfo, clientID)
         return response.status(201).json({newOrder})
     } catch (error) {

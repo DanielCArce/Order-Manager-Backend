@@ -9,43 +9,32 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-model User{
+model User {
   id Int @id @default(autoincrement())
   name String
   email String @unique
   password String
 }
-model Company {
+model Companies {
   id Int @id @default(autoincrement())
-  name String
-  orders Order[]
-  kindOf clientType
+  name String @unique
+  email String @unique
+  isFE Boolean @default(false)
+  orders Orders[]
 }
-model Order {
+model Orders {
   id Int @id @default(autoincrement())
-  orderID String @default(uuid())
-  date DateTime @default(now())
-  clientID Company @relation(fields: [id], references: [id])
-  pricePerInch BigInt
+  orderID String @unique @default(uuid())
+  clientID Int
+  client Companies @relation(fields: [clientID], references: [id])
   items Json[]
-  shippings Shipping[]
-  status statusType @default(PENDING)
+  pricePerInch Int
+  shippings Shippings[]
 }
-model Shipping {
+model Shippings {
   id Int @id @default(autoincrement())
-  orderID Order @relation(fields:[id], references:[id])
-  date DateTime @default(now())
+  shippingID String @unique @default(uuid())
+  orderID String
+  order Orders @relation(fields: [orderID], references: [orderID])
   items Json[]
-}
-
-
-enum clientType {
-  CLIENT
-  PROVIDER
-  BOTH
-}
-enum statusType {
-  PENDING
-  COMPLETED
-  WORKING
 }

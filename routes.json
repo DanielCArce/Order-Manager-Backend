@@ -1,0 +1,7 @@
+[
+    {
+        "method":"GET",
+        "route":"api/v1/auth",
+        "params":[]
+    }
+]

@@ -1,10 +1,10 @@
 import { Router } from 'express'
 import {createUser,updatePassword} from '../controllers/users.js'
-import AuthMiddleware from '../middlewares/auth.js'
+import AuthMiddleware from '../../middlewares/AuthMiddleware.js'
 const router = Router()
 
 router
-    .use(AuthMiddleware)
+    // .use(AuthMiddleware)
     .post('/new-user', createUser)
     .put('/update-password',updatePassword)
 

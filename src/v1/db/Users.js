@@ -1,4 +1,4 @@
-import db from './index.js'
+import db from '../../db/index.js'
 
 export async function createNewUser(userInfo) {
     try {

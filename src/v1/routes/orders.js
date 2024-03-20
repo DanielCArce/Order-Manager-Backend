@@ -1,14 +1,14 @@
 import { getOrders, getOrderOrderID,updateOrderInfo, newOrder } from '../controllers/orders.js'
 import { Router } from 'express'
-import AuthMiddleware from '../middlewares/auth.js'
+import AuthMiddleware from '../../middlewares/AuthMiddleware.js'
 const router = Router()
 
 router
     .use(AuthMiddleware)
-    .get('/orders', getOrders)
-    .get('/:status', getOrders)
-    .get('/orders/:orderID', getOrderOrderID)
-    .get('/orders/:orderID/:includeShippings', getOrderOrderID)
+    .get('/', getOrders)
+    .get('/status/:status', getOrders)
+    .get('/:orderID', getOrderOrderID)
+    .get('/:orderID/:includeShippings', getOrderOrderID)
     .put('/:orderID',updateOrderInfo)
     .post('/new-order',newOrder)
     

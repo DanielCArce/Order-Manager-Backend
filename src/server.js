@@ -10,10 +10,11 @@ import {ProfilingIntegration } from '@sentry/profiling-node'
 
 
 //routers
-import AuthRouter from './routes/auth.js'
-import UserRouter from './routes/users.js'
-import OrderRouter from './routes/orders.js'
-import ShippingsRouter from './routes/shippings.js'
+import AuthRouterV1 from './v1/routes/auth.js'
+import UserRouterV1 from './v1/routes/users.js'
+import OrderRouterV1 from './v1/routes/orders.js'
+import ShippingsRouterV1  from './v1/routes/shippings.js'
+import CompaniesRouterV1 from './v1/routes/companies.js'
 const app = express()
 
 Sentry.init({
@@ -38,11 +39,11 @@ app.use(rateLimit({
 
 
 //routing settings
-app.use('/auth',AuthRouter)
-app.use('/users', UserRouter)
-app.use('/orders',OrderRouter)
-app.use('/shipppings',ShippingsRouter)
-
+app.use('/api/v1/auth',AuthRouterV1)
+app.use('/api/v1/users', UserRouterV1)
+app.use('/api/v1/orders',OrderRouterV1)
+app.use('/api/v1/shipppings',ShippingsRouterV1)
+app.use('/api/v1/companies',CompaniesRouterV1)
 
 // The error handler must be before any other error middleware and after all controllers
 app.use(Sentry.Handlers.errorHandler());
@@ -51,7 +52,7 @@ app.use(Sentry.Handlers.errorHandler());
 app.use(function onError(err, req, res, next) {
   // The error id is attached to `res.sentry` to be returned
   // and optionally displayed to the user for support.
-  console.log({err})
+  console.log({t:err})
   res.statusCode = 500;
   res.end(res.sentry + "\n");
 });
