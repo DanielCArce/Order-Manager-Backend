@@ -30,6 +30,7 @@ model Orders {
   items Json[]
   pricePerInch Int
   shippings Shippings[]
+  status eStatus @default(WAITING)
 }
 model Shippings {
   id Int @id @default(autoincrement())
@@ -37,4 +38,10 @@ model Shippings {
   orderID String
   order Orders @relation(fields: [orderID], references: [orderID])
   items Json[]
+}
+enum eStatus {
+  READY
+  ON_PROCESS
+  COMPLETED
+  WAITING
 }
