@@ -28,7 +28,7 @@ export async function updateStatusOrder(orderID, orderStatus) {
 export async function getAllOrders() {
     try {
         return await db.orders.findMany({
-            include: {
+             include: {
                 client: {
                     select: {
                     name: true,
@@ -37,7 +37,8 @@ export async function getAllOrders() {
                     orders:true
                 }
             }
-        }})
+        }
+        })
     } catch (error) {
         throw new Error(error.message)
     }
