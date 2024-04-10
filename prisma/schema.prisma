@@ -14,6 +14,7 @@ model User {
   name String
   email String @unique
   password String
+  role eRole @default(USER)
 }
 model Companies {
   id Int @id @default(autoincrement())
@@ -25,6 +26,7 @@ model Companies {
 model Orders {
   id Int @id @default(autoincrement())
   orderID String @unique @default(uuid())
+  date DateTime @default(now())
   clientID Int
   client Companies @relation(fields: [clientID], references: [id])
   items Json[]
@@ -35,6 +37,7 @@ model Orders {
 model Shippings {
   id Int @id @default(autoincrement())
   shippingID String @unique @default(uuid())
+  date DateTime @default(now())
   orderID String
   order Orders @relation(fields: [orderID], references: [orderID])
   items Json[]
@@ -44,4 +47,9 @@ enum eStatus {
   ON_PROCESS
   COMPLETED
   WAITING
+}
+enum eRole {
+  ADMIN
+  USER
+  CLIENT
 }

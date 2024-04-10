@@ -42,7 +42,7 @@ app.use(rateLimit({
 app.use('/api/v1/auth',AuthRouterV1)
 app.use('/api/v1/users', UserRouterV1)
 app.use('/api/v1/orders',OrderRouterV1)
-app.use('/api/v1/shipppings',ShippingsRouterV1)
+app.use('/api/v1/shippings',ShippingsRouterV1)
 app.use('/api/v1/companies',CompaniesRouterV1)
 
 // The error handler must be before any other error middleware and after all controllers
@@ -53,7 +53,7 @@ app.use(function onError(err, req, res, next) {
   // The error id is attached to `res.sentry` to be returned
   // and optionally displayed to the user for support.
   console.log({t:err})
-  res.statusCode = 500;
+  res.status(500)
   res.end(res.sentry + "\n");
 });
 

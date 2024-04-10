@@ -34,9 +34,12 @@ export async function getAllOrders() {
                     name: true,
                         isFE: true,
                     email:true,
-                    orders:true
+                    
                 }
             }
+        },
+            where: {
+            OR:[{status:"WAITING"},{status:"ON_PROCESS"}]
         }
         })
     } catch (error) {
