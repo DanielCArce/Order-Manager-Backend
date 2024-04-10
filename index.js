@@ -15,7 +15,7 @@ const HOST = process.env.HOST || '127.0.0.1'
 //     }
 // } else {
 
-    const server = app.listen(PORT,HOST, () => {
+    const server = app.listen(PORT, () => {
         console.log(`Server is running in http://${server.address().address}:${server.address().port}/`)
     })
 //}
