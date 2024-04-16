@@ -22,6 +22,7 @@ model Companies {
   email String @unique
   isFE Boolean @default(false)
   orders Orders[]
+  isActive Boolean @default(true)
 }
 model Orders {
   id Int @id @default(autoincrement())
