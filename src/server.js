@@ -44,7 +44,9 @@ app.use('/api/v1/users', UserRouterV1)
 app.use('/api/v1/orders',OrderRouterV1)
 app.use('/api/v1/shippings',ShippingsRouterV1)
 app.use('/api/v1/companies',CompaniesRouterV1)
-app.get('/',(request, response)=> response.status(200).json({version:"1.0.0", "devs":["danielcarce"]}))
+app.get('/',(request, response)=> {
+  response.status(200).json({ version: "1.0.0", "devs": ["danielcarce"] })
+})
 // The error handler must be before any other error middleware and after all controllers
 app.use(Sentry.Handlers.errorHandler());
 
