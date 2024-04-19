@@ -2,8 +2,11 @@ import { createNewOrder, getAllOrders, getOrderByOrderID, updateStatusOrder } fr
 
 export async function getOrders(request, response, next) {
     try {
+        const includeClients = request.query.clients
+        if (includeClients) {
+            const orders = await getAllOrders(true)
+        }
         const orders = await getAllOrders()
-        
         return response.status(200).json({orders})
     } catch (error) {
         return next(error)
@@ -23,7 +26,7 @@ export async function newOrder(request,response, next) {
 export async function getOrderOrderID(request, response, next) {
     try {
         const orderID = request.params.orderID
-        const includeShippings = request.params?.includeShippings
+        const includeShippings = request.query.shippings
         if (includeShippings !== undefined || includeShippings !== false || includeShippings !== null) {
             const order = await getOrderByOrderID(orderID, includeShippings)
             return response.status(200).json({order})

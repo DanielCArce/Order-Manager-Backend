@@ -25,9 +25,10 @@ export async function updateStatusOrder(orderID, orderStatus) {
         throw new Error(error.message)
     }
 }
-export async function getAllOrders() {
+export async function getAllOrders(includeClients) {
     try {
-        return await db.orders.findMany({
+        if(includeClients){
+            return await db.orders.findMany({
              include: {
                 client: {
                     select: {
@@ -42,6 +43,12 @@ export async function getAllOrders() {
             OR:[{status:"WAITING"},{status:"ON_PROCESS"}]
         }
         })
+        }
+        return await db.orders.findMany({
+            where: {
+                OR:[{status:"WAITING"},{status:"ON_PROCESS"}]
+        }
+        })
     } catch (error) {
         throw new Error(error.message)
     }
@@ -54,7 +61,13 @@ export async function getOrderByOrderID(orderID, includeShippings= false) {
                 orderID
               },
               include: {
-                  shippings
+                  shippings: {
+                      select: {
+                          items: true,
+                          shippingID: true,
+                          date: true
+                      }
+                  }
               }
         })  
         }
