@@ -10,7 +10,7 @@
     "debug": "node inspect ./index.js",
     "docker:run": "docker-compose up -d",
     "prisma:studio": "npx prisma studio",
-    "test":"set NODE_OPTIONS=--experimental-vm-modules && npx jest"
+    "test": "set NODE_OPTIONS=--experimental-vm-modules && npx jest"
   },
   "author": "DanielCArce (dev@danielcarce.io)",
   "license": "ISC",
@@ -29,6 +29,7 @@
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
+    "nodemailer": "^6.9.13",
     "redis": "^4.6.13"
   },
   "devDependencies": {
