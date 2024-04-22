@@ -5,6 +5,7 @@ export async function getOrders(request, response, next) {
         const includeClients = request.query.clients
         if (includeClients) {
             const orders = await getAllOrders(true)
+            return response.status(200).json({orders})
         }
         const orders = await getAllOrders()
         return response.status(200).json({orders})
