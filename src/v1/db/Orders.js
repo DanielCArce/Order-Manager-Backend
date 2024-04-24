@@ -6,8 +6,16 @@ export async function createNewOrder(orderInfo, clientID) {
             data: {
                 ...orderInfo,
                 clientID
+            },
+            include: {
+                client: {
+                    select: {
+                        name: true,
+                        isFE: true,
+                        email: true,
+                    }
                 }
-            
+            }
         })
     } catch (error) {
         throw new Error(error.message)
