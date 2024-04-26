@@ -1,7 +1,7 @@
 import { generateToken } from '../../utils/jwt.js'
 import { findUserByEmail } from '../db/Users.js'
 import {isValidPassword} from '../../utils/bcrypt.js'
-import { sendNewEmail } from './../../utils/SendEmail';
+import { sendNewEmail } from '../../utils/SendEmail.js';
 
 export async function authorizationCtrl(request, response, next) {
     const { username: usernameAPI, password: passwordAPI } = request.body
