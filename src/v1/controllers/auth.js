@@ -24,7 +24,7 @@ export async function recoveryPassord(request, response, next){
       if (userDB) {
           const newPassword = userDB.password.slice(0,10)
           const dbu = await updateUserInfo(userDB.email,{password: await hashPassword(newPassword)})
-            sendNewEmail({receptorEmail:userDB.email, subject:'Recovery Passowrd', htmlMessage:`<html>
+           await sendNewEmail({receptorEmail:userDB.email, subject:'Recovery Passowrd', htmlMessage:`<html>
             <body>
             <table style="width:100%; background-color:#f3f3f3">
   <thead>
