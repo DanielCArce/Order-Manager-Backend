@@ -49,11 +49,7 @@ export async function getAllOrders(includeClients) {
         }
         })
         }
-        return await db.orders.findMany({
-            where: {
-                OR:[{status:"WAITING"},{status:"ON_PROCESS"}]
-        }
-        })
+        return await db.orders.findMany({})
     } catch (error) {
         throw new Error(error.message)
     }
