@@ -33,7 +33,7 @@ model Orders {
   items Json[]
   pricePerInch Int
   shippings Shippings[]
-  status eStatus @default(WAITING)
+  status eStatus @default(ON_PROCESS)
 }
 model Shippings {
   id Int @id @default(autoincrement())
@@ -44,10 +44,8 @@ model Shippings {
   items Json[]
 }
 enum eStatus {
-  READY
   ON_PROCESS
   COMPLETED
-  WAITING
 }
 enum eRole {
   ADMIN

@@ -1,31 +1,19 @@
-/*
-  Warnings:
+-- CreateEnum
+CREATE TYPE "eStatus" AS ENUM ('ON_PROCESS', 'COMPLETED');
 
-  - You are about to drop the `Company` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Order` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Shipping` table. If the table is not empty, all the data it contains will be lost.
+-- CreateEnum
+CREATE TYPE "eRole" AS ENUM ('ADMIN', 'USER', 'CLIENT');
 
-*/
--- DropForeignKey
-ALTER TABLE "Order" DROP CONSTRAINT "Order_id_fkey";
+-- CreateTable
+CREATE TABLE "User" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "role" "eRole" NOT NULL DEFAULT 'USER',
 
--- DropForeignKey
-ALTER TABLE "Shipping" DROP CONSTRAINT "Shipping_id_fkey";
-
--- DropTable
-DROP TABLE "Company";
-
--- DropTable
-DROP TABLE "Order";
-
--- DropTable
-DROP TABLE "Shipping";
-
--- DropEnum
-DROP TYPE "clientType";
-
--- DropEnum
-DROP TYPE "statusType";
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "Companies" (
@@ -33,6 +21,7 @@ CREATE TABLE "Companies" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "isFE" BOOLEAN NOT NULL DEFAULT false,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
 
     CONSTRAINT "Companies_pkey" PRIMARY KEY ("id")
 );
@@ -41,9 +30,11 @@ CREATE TABLE "Companies" (
 CREATE TABLE "Orders" (
     "id" SERIAL NOT NULL,
     "orderID" TEXT NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "clientID" INTEGER NOT NULL,
     "items" JSONB[],
     "pricePerInch" INTEGER NOT NULL,
+    "status" "eStatus" NOT NULL DEFAULT 'ON_PROCESS',
 
     CONSTRAINT "Orders_pkey" PRIMARY KEY ("id")
 );
@@ -52,10 +43,15 @@ CREATE TABLE "Orders" (
 CREATE TABLE "Shippings" (
     "id" SERIAL NOT NULL,
     "shippingID" TEXT NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "orderID" TEXT NOT NULL,
+    "items" JSONB[],
 
     CONSTRAINT "Shippings_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Companies_name_key" ON "Companies"("name");

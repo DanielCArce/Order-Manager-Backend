@@ -46,9 +46,6 @@ export async function getAllOrders(includeClients) {
                     
                 }
             }
-        },
-            where: {
-            OR:[{status:"WAITING"},{status:"ON_PROCESS"}]
         }
         })
         }
