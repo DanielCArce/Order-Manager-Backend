@@ -1,4 +1,4 @@
-import { createNewShipping, getShippingbyID, getAllShippings } from '../db/shippings.js'
+import { createNewShipping, getShippingbyID, getAllShippings,getShippingbyOrder } from '../db/shippings.js'
 
 export async function newShipping(request, response, next) {
     try {
@@ -27,4 +27,12 @@ export async function getShippings(request, response, next){
         return next(error)
     }
 
+}
+export async function getShippingsByOrderID(request, response, next) {
+    try {
+        const allShippingByOrders = await getShippingbyOrder(request.params.orderID)
+        return response.status(200).json({allShippingByOrders})
+    } catch (error) {
+        return next(error)
+    }
 }

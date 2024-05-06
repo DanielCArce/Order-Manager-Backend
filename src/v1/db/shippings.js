@@ -31,3 +31,14 @@ export async function getAllShippings(){
         throw new Error(error.message)
     }
 }
+export async function getShippingbyOrder(orderID) {
+    try {
+        return db.shippings.findMany({
+            where: {
+                orderID: orderID
+            }
+        })
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}
