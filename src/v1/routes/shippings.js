@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import AuthMiddleware from '../../middlewares/AuthMiddleware.js'
-import {newShipping,shippingByID,getShippings, getShippingsByOrder} from '../controllers/shippings.js'
+import {newShipping,shippingByID,getShippings, getShippingsByOrderID} from '../controllers/shippings.js'
 const router = Router()
 router
     .use(AuthMiddleware)
