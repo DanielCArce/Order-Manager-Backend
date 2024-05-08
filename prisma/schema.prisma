@@ -23,7 +23,9 @@ model Companies {
   isFE Boolean @default(false)
   orders Orders[]
   isActive Boolean @default(true)
+  type eClient @default(FACTORY)
 }
+
 model Orders {
   id Int @id @default(autoincrement())
   orderID String @unique @default(uuid())
@@ -42,6 +44,8 @@ model Shippings {
   orderID String
   order Orders @relation(fields: [orderID], references: [orderID])
   items Json[]
+  pricePerInch Int @default(330)
+
 }
 enum eStatus {
   ON_PROCESS
@@ -51,4 +55,8 @@ enum eRole {
   ADMIN
   USER
   CLIENT
+}
+enum eClient {
+  FACTORY
+  DISTRIBUTOR
 }
