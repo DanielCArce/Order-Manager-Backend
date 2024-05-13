@@ -4,7 +4,8 @@ export async function createNewShipping(shippingInfo, orderID) {
     try {
         return db.shippings.create({
             data: {
-                ...shippingInfo,
+                items: shippingInfo.items,
+                pricePerInch: shippingInfo.pricePerInch,
                 orderID
             }
         })
