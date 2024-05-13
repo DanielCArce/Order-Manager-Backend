@@ -44,7 +44,7 @@ model Shippings {
   orderID String
   order Orders @relation(fields: [orderID], references: [orderID])
   items Json[]
-  pricePerInch Int @default(330)
+  pricePerInch Int
 
 }
 enum eStatus {
