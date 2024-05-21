@@ -26,3 +26,17 @@ export async function getAllCompanies() {
         throw new Error(error.message)
     }
 }
+export async function updateInfo(companyID, info) {
+    try {
+        return db.companies.update({
+            where: {
+                id: companyID
+            },
+            data:{
+                ...info
+            }
+        })
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}

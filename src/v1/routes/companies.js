@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import AuthMiddleware from '../../middlewares/AuthMiddleware.js'
-import { createNewCompany, findCompanyByID, obtainAllCompanies } from '../controllers/companies.js'
+import { createNewCompany, findCompanyByID, obtainAllCompanies, updateInfoToCompany } from '../controllers/companies.js'
 
 const router = Router()
 router
@@ -8,4 +8,5 @@ router
     .post('/new-company', createNewCompany)
     .get('/', obtainAllCompanies)
     .get('/:companyID', findCompanyByID)
+    .put('/:companyID', updateInfoToCompany)
 export default router
