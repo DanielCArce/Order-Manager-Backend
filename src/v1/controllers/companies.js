@@ -1,4 +1,4 @@
-import {createCompany, findCompany, getAllCompanies, updateInfo} from '../db/Clients.js'
+import {createCompany, findCompany, getAllCompanies, updateInfo, deleteClient} from '../db/Clients.js'
 
 export async function createNewCompany(request, response, next) {
     try {
@@ -31,6 +31,14 @@ export async function updateInfoToCompany(request, response, next){
         const companyID = Number(request.params.companyID)
         const companyUpdated = await updateInfo(companyID, request.body)
         return response.status(200).json({companyUpdated})
+    } catch (error) {
+        next(error)
+    }
+}
+export async function deleteCompany(request, response, next) {
+    try {
+        await deleteClient(Number(request.params.companyID))
+        return response.sendStatus(201)
     } catch (error) {
         next(error)
     }

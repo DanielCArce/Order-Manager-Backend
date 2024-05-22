@@ -21,7 +21,11 @@ export async function findCompany(companyID) {
 }
 export async function getAllCompanies() {
     try {
-        return db.companies.findMany({})
+        return db.companies.findMany({
+            where: {
+                isActive: true
+            }
+        })
     } catch (error) {
         throw new Error(error.message)
     }
@@ -34,6 +38,20 @@ export async function updateInfo(companyID, info) {
             },
             data:{
                 ...info
+            }
+        })
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}
+export async function deleteClient(companyID) {
+    try {
+        return db.companies.update({
+            where: {
+                id: companyID
+            },
+            data: {
+                isActive: false
             }
         })
     } catch (error) {
