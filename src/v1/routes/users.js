@@ -4,7 +4,7 @@ import AuthMiddleware from '../../middlewares/AuthMiddleware.js'
 const router = Router()
 
 router
-    // .use(AuthMiddleware)
+    .use(AuthMiddleware)
     .post('/new-user', createUser)
     .put('/update-password',updatePassword)
 
