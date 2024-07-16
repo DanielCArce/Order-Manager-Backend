@@ -1,28 +1,22 @@
-version: "3.9"
 services:
   db:
-    container_name: "dbase"
     image: postgres
     environment:
       - POSTGRES_USER = postgres
       - POSTGRES_PASSWORD=danielcarce
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
       - db:/var/lib/postgresql/data #/var/lib/postgresql/data
     
   app:
-    container_name: "finaapp-api"
     build:
       context: .
       dockerfile: Dockerfile
-    environment:
-      - DATABASE_URL = postgresql://postgres:danielcarce@dbase/mydb?schema=public
-      - SENTRY_DSN = https://b4268284485b1b3de1a27644243151c2@o163098.ingest.sentry.io/4506474550591488
-      - SECRET = $2b$10$VAJE/2yo0kQfUi0rIKhug
     ports:
       - 3000:3000
-    volumes:
-      - ./:/app
+    depends_on:
+      - db
+    restart: "always"
 volumes:
   db:
