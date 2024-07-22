@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node .",
     "dev": "nodemon .",
-    "ready":"npx prisma db push && npm run start",
+    "ready": "npx prisma db push && npm run start",
     "debug": "node inspect ./index.js",
     "docker:run": "docker-compose up -d",
     "prisma:studio": "npx prisma studio",
@@ -16,7 +16,7 @@
   "author": "DanielCArce (dev@danielcarce.io)",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^5.16.2",
+    "@prisma/client": "^5.17.0",
     "@sentry/node": "^7.118.0",
     "@sentry/profiling-node": "^1.3.5",
     "aws-sdk": "^2.1659.0",
@@ -37,7 +37,7 @@
   "devDependencies": {
     "jest": "^29.7.0",
     "nodemon": "^3.1.4",
-    "prisma": "^5.16.2",
+    "prisma": "^5.17.0",
     "supertest": "^6.3.4"
   }
 }
