@@ -7,6 +7,9 @@ export async function authorizationCtrl(request, response, next) {
     const { username: usernameAPI, password: passwordAPI } = request.body
     try {
     const userDB = await findUserByEmail(usernameAPI)
+      if (userDB == null) {
+        response.sendStatus(501);
+    }
     const isValidPass = await isValidPassword(passwordAPI,userDB.password)
     if (isValidPass) {
         const token = await generateToken(userDB)
