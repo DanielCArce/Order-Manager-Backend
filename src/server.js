@@ -7,7 +7,7 @@ import rateLimit from 'express-rate-limit'
 import helmet from 'helmet'
 import * as Sentry from '@sentry/node'
 import {ProfilingIntegration } from '@sentry/profiling-node'
-
+import ErrorMiddleware from './middlewares/ErrorMiddleware.js'
 
 //routers
 import AuthRouterV1 from './v1/routes/auth.js'
@@ -51,12 +51,6 @@ app.get('/',(request, response)=> {
 app.use(Sentry.Handlers.errorHandler());
 
 // Optional fallthrough error handler
-app.use(function onError(err, req, res, next) {
-  // The error id is attached to `res.sentry` to be returned
-  // and optionally displayed to the user for support.
-  console.log({t:err})
-  res.status(500)
-  res.end(res.sentry + "\n");
-});
+app.use(ErrorMiddleware);
 
 export default app
