@@ -8,6 +8,7 @@ services:
       - "5432:5432"
     volumes:
       - db:/var/lib/postgresql/data #/var/lib/postgresql/data
+    restart: "always"
     
   app:
     build:
@@ -15,6 +16,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+      - "5555:5555"
+    volumes:
+      - ./:/home/src/app
+      - /home/src/app/node_modules
     depends_on:
       - db
     restart: "always"
