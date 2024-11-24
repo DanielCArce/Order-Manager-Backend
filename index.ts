@@ -1,7 +1,9 @@
 import dotenv from 'dotenv'
-import app from './src/server'
 dotenv.config();
+import socketServer from './src/socketServer'
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log('Server is running in localhost:3000')
+
+socketServer.listen(PORT, () => {
+    console.log(`Http Server is running in http://localhost:${PORT}`)
+    console.log(`WebSocket Server is running in ws://localhost:${PORT}`)
 })

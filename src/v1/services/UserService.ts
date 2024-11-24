@@ -1,7 +1,7 @@
 import { User } from '@prisma/client';
-import prisma from '@root/prisma'
+import prisma from '../../prisma'
 
-import DatabaseService from '@services/DatabaseService';
+import DatabaseService from './DatabaseService';
 
 export class UserService extends DatabaseService<User> {
     constructor() {

@@ -1,4 +1,4 @@
-import prisma from '@root/prisma'; // Path to your prisma client instance
+import prisma from '../../prisma'; // Path to your prisma client instance
 
 class DatabaseService<T> {
     protected model: any;

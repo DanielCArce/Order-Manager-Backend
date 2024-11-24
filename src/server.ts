@@ -6,9 +6,9 @@ import cors from 'cors'
 import compress from 'compression'
 import cookieParser from 'cookie-parser'
 //routes
-import IndexRoutes from '@routes/IndexRouter'
-import UserRoutes from '@routes/UserRouter'
-
+import IndexRoutes from './v1/routes/IndexRouter'
+import UserRoutes from './v1/routes/UserRouter'
+import OrderRoutes from './v1/routes/OrderRouter'
 const app = express()
 
 app.use(express.urlencoded({ extended: true }));
@@ -28,7 +28,8 @@ if (process.env.NODE_ENV != "Development") {
 
 //Set Routes endpoints
 app.use('/api', IndexRoutes)
-app.use('/api/v1/users',UserRoutes)
+app.use('/api/v1/users', UserRoutes)
+app.use('/api/v1/orders', OrderRoutes)
 
 
 export default app;

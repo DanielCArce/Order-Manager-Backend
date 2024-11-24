@@ -1,11 +1,15 @@
 import {Request, Response} from 'express'
 import UserService from '../services/UserService';
+import { generateHash } from '../../utils/encrypt';
 const service = new UserService();
 export async function CreateUserController(request: Request, response: Response) {
     const user = request.body;
     const existEmail = await service.alreadyExistEmail(user.email);
     if (!existEmail) {   
-        await service.create(user);
+        await service.create({
+            ...user,
+            password:  await generateHash(user.password)
+        });
          response.status(201);
     }
      response.status(401);
