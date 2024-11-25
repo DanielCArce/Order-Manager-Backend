@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 dotenv.config();
-import socketServer from './src/socketServer'
+import socketServer from '@/socketServer'
 const PORT = process.env.PORT || 3000;
 
 socketServer.listen(PORT, () => {

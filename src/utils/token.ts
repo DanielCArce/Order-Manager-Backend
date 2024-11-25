@@ -1,4 +1,4 @@
-import {IUserToken} from '@src/types/AuthToken'
+import {IUserToken} from '@dto/AuthToken'
 import jwt, { Jwt } from 'jsonwebtoken'
 const TOKEN_SECRET = process.env.SECRET;
 export async function generateToken(payload: IUserToken) {

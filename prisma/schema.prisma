@@ -12,54 +12,47 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-model User {
-  id Int @id @default(autoincrement())
-  name String
-  email String @unique
-  password String
-  role eRole @default(USER)
-}
-model Companies {
-  id Int @id @default(autoincrement())
-  name String @unique
-  email String @unique
-  isFE Boolean @default(false)
-  orders Orders[]
-  isActive Boolean @default(true)
-  type eClient @default(FACTORY)
-}
-
-model Orders {
-  id Int @id @default(autoincrement())
-  orderID String @unique @default(uuid())
-  date DateTime @default(now())
-  clientID Int
-  client Companies @relation(fields: [clientID], references: [id])
-  items Json[]
-  pricePerInch Int
-  shippings Shippings[]
-  status eStatus @default(ON_PROCESS)
-}
-model Shippings {
-  id Int @id @default(autoincrement())
-  shippingID String @unique @default(uuid())
-  date DateTime @default(now())
-  orderID String
-  order Orders @relation(fields: [orderID], references: [orderID])
-  items Json[]
-  pricePerInch Int
-
-}
-enum eStatus {
-  ON_PROCESS
-  COMPLETED
-}
-enum eRole {
+enum ERoles {
   ADMIN
-  USER
-  CLIENT
+  SELLER
 }
-enum eClient {
-  FACTORY
-  DISTRIBUTOR
+model User{
+  ID Int @id @default(autoincrement())
+  Name String @db.VarChar(255)
+  Email String @db.VarChar(255) @unique
+  Password String @db.VarChar(255)
+  Role ERoles @default(ADMIN)
+  Orders Order[]
+}
+model Client {
+  ID Int @id @default(autoincrement())
+  Name String @unique @db.VarChar(255)
+  Email String @unique @db.VarChar(255)
+  Orders Order[]
+  Shipings Shipping[]
+}
+model Order{
+  ID String @id @default(uuid())
+  ClientID Int
+  Date DateTime @default(now())
+  Items Json[]
+  Subtotal Decimal
+  Taxes Decimal
+  Total Decimal
+  CreateBy Int
+  Shipping Shipping[]
+  Client Client @relation(fields: [ClientID], references: [ID])
+  User User @relation(fields: [CreateBy], references: [ID])
+}
+model Shipping{
+  ID String @id @default(uuid())
+  ClientID Int
+  OrderID String
+  Date DateTime @default(now())
+  Items Json[]
+  Client Client @relation(fields: [ClientID], references: [ID])
+  Order Order @relation(fields: [OrderID], references: [ID])
+  Subtotal Decimal
+  Taxes Decimal
+  Total Decimal
 }

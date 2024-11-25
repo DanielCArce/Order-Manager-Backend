@@ -1,13 +1,11 @@
 import { User } from '@prisma/client';
-import prisma from '../../prisma'
-
-import DatabaseService from './DatabaseService';
-
+import prisma from '@/prisma'
+import DatabaseService from '@services/DatabaseService';
+import {IUpdateUser } from '@dto/User'
 export class UserService extends DatabaseService<User> {
     constructor() {
         super(prisma.user);
     }
-    
     // You can add custom methods for specific model logic
     async findByEmail(email: string): Promise<User | null> {
         return this.model.findUnique({

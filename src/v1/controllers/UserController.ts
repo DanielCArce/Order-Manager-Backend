@@ -1,9 +1,10 @@
 import {Request, Response} from 'express'
-import UserService from '../services/UserService';
-import { generateHash } from '../../utils/encrypt';
+import UserService from '@services/UserService';
+import { generateHash } from '@utils/encrypt';
+import {INewUser, IUpdateUser} from '@dto/User'
 const service = new UserService();
 export async function CreateUserController(request: Request, response: Response) {
-    const user = request.body;
+    const user:INewUser = request.body;
     const existEmail = await service.alreadyExistEmail(user.email);
     if (!existEmail) {   
         await service.create({

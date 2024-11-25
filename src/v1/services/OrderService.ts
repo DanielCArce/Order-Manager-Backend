@@ -1,11 +1,11 @@
 import { Orders } from '@prisma/client';
-import prisma from '../../prisma'
+import prisma from '@/prisma'
 
-import DatabaseService from './DatabaseService';
+import DatabaseService from '@services/DatabaseService';
 
 export class OrderService extends DatabaseService<Orders> {
     constructor() {
-        super(prisma.user);
+        super(prisma.orders);
     }
 }
 export default OrderService

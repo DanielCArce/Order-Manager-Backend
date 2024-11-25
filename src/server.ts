@@ -6,9 +6,9 @@ import cors from 'cors'
 import compress from 'compression'
 import cookieParser from 'cookie-parser'
 //routes
-import IndexRoutes from './v1/routes/IndexRouter'
-import UserRoutes from './v1/routes/UserRouter'
-import OrderRoutes from './v1/routes/OrderRouter'
+import IndexRoutes from '@routes/IndexRouter'
+import UserRoutes from '@routes/UserRouter'
+import OrderRoutes from '@routes/OrderRouter'
 const app = express()
 
 app.use(express.urlencoded({ extended: true }));

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import OrderService from '../services/OrderService'
+import OrderService from '@services/OrderService'
 import { eStatus } from '@prisma/client';
 const service = new OrderService()
 export async function CreateOrderController(request: Request, response: Response) {
